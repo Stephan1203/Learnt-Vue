@@ -24,6 +24,7 @@ function addUser(e) {
           <label for="todo">Задача</label>
       </div>
       <button @click="addUser">+</button>
+      <div>Список пользователей</div>
     </div>
     <div class="user_list"></div>
   </main>
