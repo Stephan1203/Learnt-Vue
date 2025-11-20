@@ -1,24 +1,25 @@
 <script setup>
 import { ref } from "vue";
 
-let id = ref(1);
-let users = ref([]);
-let userName = ref("");
-let date = ref("");
-let todo = ref("");
+let id = ref(1)
+let users = ref([])
+let userName = ref("")
+let date = ref("")
+let todo = ref("")
+let isInputsEmpty = ref(false)
 
 function addUser() {
   if (!userName.value.trim() || !date.value.trim() || !todo.value.trim()) {
-    alert("Заполните все поля!");
-    return;
+    isInputsEmpty.value = true
+    return
   }
-
+  isInputsEmpty.value = false
   users.value.push({
     id: id.value++,
     userName: userName.value,
     date: date.value,
     todo: todo.value,
-  });
+  })
   userName.value = "";
   date.value = "";
   todo.value = "";
@@ -30,20 +31,23 @@ function addUser() {
     <div class="add_user">
       <div class="block_1">
         <div class="form">
-          <input v-model="userName" id="name" type="text" placeholder="" />
+          <input v-model="userName" id="name" type="text" placeholder="" @focus="isInputsEmpty = false" autocomplete="off"/>
           <label for="name">Введите имя</label>
         </div>
         <div class="form">
-          <input v-model="date" id="date" type="text" placeholder="" />
+          <input v-model="date" id="date" type="text" placeholder="" @focus="isInputsEmpty = false" autocomplete="off"/>
           <label for="date">Время задачи</label>
         </div>
       </div>
       <div class="form">
-        <input v-model="todo" id="todo" type="text" placeholder="" />
+        <input v-model="todo" id="todo" type="text" placeholder="" @focus="isInputsEmpty = false" autocomplete="off"/>
         <label for="todo">Задача</label>
       </div>
       <button @click="addUser">Добавить задачу</button>
+      <p v-if="isInputsEmpty" class="is_empty" :class="{"empty-list"}">Заполните все поля</p>
     </div>
+
+
     <div class="user_list">
       <div v-if="users.length > 0">
         <ul>
@@ -174,6 +178,13 @@ input:not(:placeholder-shown) {
 
 .add_user button:hover {
   box-shadow: 0 0 5px #3071eb;
+}
+
+.is_empty {
+  color: #e60000;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .user_list {
